@@ -4,4 +4,5 @@ void encode(short *indata, char *outdata, int len) {
 }
 
 void decode(short *indata, char *outdata, int len) {
+    return;
 }
