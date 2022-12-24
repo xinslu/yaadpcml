@@ -1,4 +1,5 @@
 #include "adpcm.h"
+#include <cstdint>
 #include <iostream>
 #include <string.h>
 using namespace std;
@@ -27,7 +28,7 @@ int main(int argc, char *argv[]) {
       }
       wav_header header;
       size_t bytes_read = fread(&header, 1, sizeof(wav_header), input_data);
-      cout << "Header Read " << bytes_read << " bytes." << endl;
+      cout << "File Header Read " << bytes_read << " bytes." << endl;
       if (bytes_read == 0) {
         fprintf(stderr, "Unable to read wave file: %s\n", input_file);
         return 1;
@@ -38,6 +39,13 @@ int main(int argc, char *argv[]) {
             memcmp(header.Subchunk2ID, "data", 4) == 0)) {
         fprintf(stderr, "Incorrect Header for the File: %s\n", input_file);
         return 1;
+      }
+      static const uint16_t BUFFER_SIZE = 8192;
+      int8_t *data_buffer[BUFFER_SIZE]; // Buffering because big files rip
+      int total_size{0};
+      while ((bytes_read =
+                 fread(data_buffer, sizeof(int8_t), BUFFER_SIZE/sizeof(int8_t), input_data)) > 0) {
+        total_size+=bytes_read;
       }
     }
   }
