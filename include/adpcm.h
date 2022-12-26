@@ -23,6 +23,6 @@ typedef struct  WAV_HEADER
 } wav_header;
 
 
-void encode(short *indata, char *outdata, int len);
-void decode(short *indata, char *outdata, int len);
+void encode(int8_t *indata, int8_t *outdata, int len);
+void decode(int8_t *indata, int8_t *outdata, int len);
 #endif
